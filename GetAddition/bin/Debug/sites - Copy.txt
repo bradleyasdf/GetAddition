@@ -1,0 +1,7 @@
+﻿机构用户|http://www.duxiu.com|<input id="UserName" />|<input id="PassWord" />|<input id="searchinp0" />|http://www.duxiu.com|
+个人认证用户|http://www.duxiu.com/login.jsp#|<input id="UserName" />|<input id="PassWord" />|<input id="searchinp0" />|www.duxiu.com|
+广州中医药大学|http://210.38.102.135:8000|<input type="text" id="userId" name="userId" />|<input type="password" name="password" />|<input type="image" src="images/but.gif" />|http://210.38.102.135:8000/rwt/9/http/P75YPLUEPW6GT7JPMNYXN/|
+安徽理工大学|http://210.45.147.170:8000/reslist|<input type="text" id="userId" name="userId" />|<input type="password" name="password" />|<input type="image" src="images/but.gif" />|http://210.45.147.170:8000/rwt/DUXIU/http/P75YPLUEPW6GT7JPMNYXN/|
+海南省图书馆|http://113.59.122.171:8000/login|<input type="text" id="userId" name="userId" />|<input type="password" name="password" />|<input type="image" src="images/but.gif" />|http://113.59.122.171:8000/rwt/DXXSJS/http/P75YPLUEPW6GT7JPMNYXN/|
+安徽工业大学|http://211.70.148.4:8000/reslist|<input type="text" id="userId" name="userId" />|<input type="password" name="password" />|<input type="image" src="images/but.gif" />|http://211.70.148.4:8000/rwt/CH_DUXIUCHINESE/http/MWTHKLUEPW6GT7JPMNYXN/duxiu_index.jsp?null|
+湖北工业大学|http://202.114.181.48/login?iplogin=0|<input type="text" id="userId" name="userId" />|<input type="password" name="password" />|<input type="image" src="images/but.gif" />|http://202.114.181.48/rwt/9/http/P75YPLUEPW6GT7JPMNYXN/|

@@ -10,7 +10,6 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Runtime.InteropServices;
-using mshtml;
 using System.Diagnostics;
 using System.Threading;
 using System.Drawing.Imaging;
@@ -20,16 +19,13 @@ using OpenQA.Selenium.Support.UI;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 using OpenQA.Selenium.Interactions;
-using System.Windows.Automation;
 using Microsoft.Win32;
-using System.Management;
 using ProxyLib;
 
 namespace GetAddition
 {
     public partial class Form1 : Form
     {
-        private string _opType = "";
         private List<string> _additionFolders = new List<string>();
         private int _additionIdx = 0;
         private string _additionSs;
@@ -46,13 +42,13 @@ namespace GetAddition
         private List<string> _proxies;
         private List<string> _allProxies;
         private string _currentProxyUrl = "";
-        private WebProxy _currentProxy;
         private MyWebClient _downloader;
         private int _reconnectAttempt = 0;
         private readonly int MAXIUMRECONNECT = 100;//100 seconds
         private int _searchAttemptCount = 0;
         private string[] _searchAttempt = new string[] { "title", "author", "folder", "titleboth", "folderboth"};
         private bool _isCancel = false;
+        private bool _isTriggered = false;
 
         public Form1()
         {
@@ -62,6 +58,28 @@ namespace GetAddition
         private void Form1_Load(object sender, EventArgs e)
         {
             init();
+        }
+
+        private void initProxyServers(string setting)
+        {
+            int idx = setting.IndexOf("=") + 1;
+            var ps2 = setting.Substring(idx).Trim().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            _proxies = ps2;
+        }
+
+        private void initProxyList(string path)
+        {
+            if (File.Exists(path))
+            {
+                var lines2 = File.ReadAllLines(path);
+                foreach (var line in lines2)
+                {
+                    if (_proxies.Contains(line) == false)
+                    {
+                        _proxies.Add(line);
+                    }
+                }
+            }
         }
 
         private void init()
@@ -77,7 +95,14 @@ namespace GetAddition
                 }
                 else if (proxyMode == "tool")
                 {
-                    string str = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Psiphon3", "UICookies", "");
+                    var obj = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Psiphon3", "UICookies", "");
+                    if (obj == null)
+                    {
+                        MessageBox.Show("Please install and run Psiphon3 first");
+                        rbNoProxy.Checked = true;
+                        return;
+                    }
+                    string str = (string)obj;
                     int idx1 = str.IndexOf("[") + 1;
                     int idx2 = str.IndexOf("]");
                     //string[] toexclude = new string[] { "AT", "BE", "BG", "GB", "SK", "PL", "CH", "DK" };
@@ -89,26 +114,18 @@ namespace GetAddition
                     var ps = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     _allProxies = ps;
                     rbProxy.Checked = true;
-                    idx = lines[1].IndexOf("=") + 1;
-                    var ps2 = lines[1].Substring(idx).Trim().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    _proxies = ps2;
+                    initProxyServers(lines[1]);
                 }
                 else if (proxyMode == "list")
                 {
                     rbProxyList.Checked = true;
-                    if (File.Exists("proxylist.txt"))
-                    {
-                        var lines2 = File.ReadAllLines("proxylist.txt");
-                        foreach (var line in lines2)
-                        {
-                            if (_proxies.Contains(line) == false)
-                            {
-                                _proxies.Add(line);
-                            }
-                        }
-                    }
+                    initProxyList("proxylist.txt");
                 }
             }
+            this.rbNoProxy.CheckedChanged += onProxyModeChanged;
+            this.rbProxy.CheckedChanged += onProxyModeChanged;
+            this.rbProxyList.CheckedChanged += onProxyModeChanged;
+            nChangeInterval.Enabled = !this.rbNoProxy.Checked;
             _currentProxyUrl = "http://abc.com/";//no proxy
             backgroundWorker1.WorkerReportsProgress = true;
         }
@@ -119,6 +136,7 @@ namespace GetAddition
             _additionIdx = 0;
             _searchAttemptCount = 0;
             //_isCancel = false;
+            gbProxyMode.Enabled = false;
             foreach (var item in lFolders.Items)
             {
                 _additionFolders.Add(item.ToString());
@@ -168,11 +186,15 @@ namespace GetAddition
                 {
                     _additionIdx++;
                     if (_isCancel)
+                    {
+                        gbProxyMode.Enabled = true;
                         return;
+                    }
                 }
                 if (_additionIdx >= _additionFolders.Count)
                 {
                     MessageBox.Show("finish");
+                    gbProxyMode.Enabled = true;
                     return;
                 }
                 search("title");
@@ -180,6 +202,7 @@ namespace GetAddition
             else
             {
                 MessageBox.Show("finish");
+                gbProxyMode.Enabled = true;
                 return;
             }
         }
@@ -476,14 +499,33 @@ namespace GetAddition
         private void timerAddition3_Tick(object sender, EventArgs e)
         {
             timerAddition3.Stop();
-            var idx = _driver.PageSource.IndexOf("jpgPath");//webBrowserWithProxy1.Document.Body.InnerHtml.IndexOf("jpgPath");//webBrowser1.Document.Body.InnerHtml.IndexOf("jpgPath");
+            var idx = _driver.PageSource.IndexOf("jpgPath");
             if (idx > -1)
             {
-                var html = _driver.PageSource;// webBrowserWithProxy1.Document.Body.InnerHtml;//webBrowser1.Document.Body.InnerHtml;
+                var html = _driver.PageSource;
                 var idx1 = html.IndexOf("\"", idx);
                 var idx2 = html.IndexOf("\"", idx1 + 1);
                 var path = "http://img.duxiu.com" + html.Substring(idx1 + 1, idx2 - idx1 - 1);
-                backgroundWorker1.RunWorkerAsync(path);
+                if (_isCancel || backgroundWorker1.IsBusy)
+                {
+                    if (backgroundWorker1.IsBusy)
+                    {
+                        if (_isCancel == false)
+                        {
+                            _isCancel = true;
+                            backgroundWorker1.CancelAsync();
+                        }
+                        while (backgroundWorker1.IsBusy)
+                        {
+                            Application.DoEvents();
+                        }
+                        backgroundWorker1.RunWorkerAsync(path);
+                    }
+                }
+                else
+                {
+                    backgroundWorker1.RunWorkerAsync(path);
+                }
                 //string[] pageTypes = new string[] { "cov001", "bok001", "leg001", "cov002" };
                 //bool hasError = false;
                 //int retryCount = 0;
@@ -660,13 +702,7 @@ namespace GetAddition
             {
                 _proxyIdx++;
             }
-            //kill current psiphon process
-            //Process[] ps = Process.GetProcessesByName("psiphon3.exe");
-            //if (ps != null && ps.Length > 0)
-            //{
-                killProcessAndChildren("psiphon3.exe");
-
-            //}
+            Utilities.KillProcessAndChildren("psiphon3.exe");
             //set new proxy
             Registry.SetValue(@"HKEY_CURRENT_USER\Software\Psiphon3", "EgressRegion", _proxies[_proxyIdx]);
             Thread.Sleep(1000);
@@ -686,8 +722,6 @@ namespace GetAddition
             if (_currentProxyUrl != proxyStr)
             {
                 _currentProxyUrl = proxyStr;
-                //_currentProxy = new WebProxy(proxyStr);
-                //ProxyLib.WinINet.DisableSystemProxy();
                 if (_isCancel)
                     return;
                 restart();
@@ -769,72 +803,6 @@ namespace GetAddition
             timer1.Start();
         }
 
-        private void login()
-        {
-            _driver.Navigate().GoToUrl("http://111.123.226.31:8000/login");
-            string usernamejs = @"document.getElementById('userId').value = '0040000001';";
-            string submitjs = @"var inputs = document.getElementsByTagName('INPUT');
-                          for (var i = 0; i < inputs.length; i++) {
-                               if (inputs[i].getAttribute('type') == 'image' && inputs[i].getAttribute('class') == undefined) {
-                                   inputs[i].click();}
-                          }";
-            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
-            js.ExecuteScript(usernamejs);
-            _driver.FindElements(By.Name("password")).First().SendKeys("000000");
-            js.ExecuteScript(submitjs);
-            Thread.Sleep(3000);
-            _driver.Navigate().GoToUrl("http://111.123.226.31:8000/rwt/DX/https/P75YPLUEPW6GT7JPMNYXN/");
-        }
-
-        private void killProcessAndChildren(int pid)
-        {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher
-             ("Select * From Win32_Process Where ParentProcessID=" + pid);
-            ManagementObjectCollection moc = searcher.Get();
-            foreach (ManagementObject mo in moc)
-            {
-
-                try
-                {
-                    killProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
-                }
-                catch
-                {
-                    break;
-                }
-            }
-
-            try
-            {
-                Process proc = Process.GetProcessById(pid);
-
-                proc.Kill();
-            }
-            catch (ArgumentException)
-            {
-                // Process already exited.
-            }
-        }
-
-        private void killProcessAndChildren(string p_name)
-        {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher
-              ("Select * From Win32_Process Where Name = '" + p_name + "'");
-
-            ManagementObjectCollection moc = searcher.Get();
-            foreach (ManagementObject mo in moc)
-            {
-                try
-                {
-                    killProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
-                }
-                catch (ArgumentException)
-                {
-                    break;
-                }
-            }
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_downloader != null)
@@ -848,9 +816,9 @@ namespace GetAddition
             Process[] ps = Process.GetProcessesByName("chromedriver");
             if (ps != null && ps.Length > 0)
             {
-                killProcessAndChildren("chromedriver.exe");
+                Utilities.KillProcessAndChildren("chromedriver.exe");
             }
-            killProcessAndChildren("psiphon3.exe");
+            Utilities.KillProcessAndChildren("psiphon3.exe");
             ProxyLib.WinINet.DisableSystemProxy();
         }
 
@@ -884,8 +852,17 @@ namespace GetAddition
             File.WriteAllText("settings.txt", sb.ToString());
         }
 
-        private void rbNoProxy_CheckedChanged(object sender, EventArgs e)
+        private void onProxyModeChanged(object sender, EventArgs e)
         {
+            if (_isTriggered)
+            {
+                _isTriggered = false;
+                return;
+            }
+            else
+            {
+                _isTriggered = true;
+            }
             if (rbNoProxy.Checked)
             {
                 nChangeInterval.Enabled = false;
@@ -894,16 +871,19 @@ namespace GetAddition
             else
             {
                 nChangeInterval.Enabled = true;
+                var lines = File.ReadAllLines("settings.txt");
+                _proxyIdx = 0;
                 if (rbProxy.Checked)
                 {
                     saveProxyModeSetting("tool");
+                    initProxyServers(lines[1]);
                 }
                 else
                 {
                     saveProxyModeSetting("list");
+                    initProxyList("proxylist.txt");
                 }
             }
-
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -917,6 +897,7 @@ namespace GetAddition
                 if (backgroundWorker1.CancellationPending || _isCancel)
                 {
                     e.Cancel = true;
+                    e.Result = hasError;
                     return;
                 }
                 int result = downloadAddition(path, pageType);
@@ -927,6 +908,7 @@ namespace GetAddition
                     {
                         retryCount = 0;
                         backgroundWorker1.ReportProgress(0);
+                        e.Result = hasError;
                         //switchProxy();
                         return;
                     }
@@ -940,6 +922,7 @@ namespace GetAddition
                 if (result == -2)
                 {
                     backgroundWorker1.ReportProgress(1);
+                    e.Result = hasError;
                     return;
                 }
 
@@ -971,9 +954,14 @@ namespace GetAddition
             {
                 _downloadCount++;
             }
-            lCount.Invoke(new Action(() => lCount.Text = _downloadCount.ToString() + " of " + _folderCount.ToString()));
+            lCount.Text = _downloadCount.ToString() + " of " + _folderCount.ToString();
             _additionIdx++;
             int changeInterval = (int)nChangeInterval.Value;
+            if (_isCancel)
+            {
+                gbProxyMode.Enabled = true;
+                return;
+            }
             if (nChangeInterval.Enabled && changeInterval > 0 && _attemptCount % changeInterval == 0)
             {
                 //MessageBox.Show("pause");
@@ -1030,6 +1018,7 @@ namespace GetAddition
                 backgroundWorker1.CancelAsync();
             }
         }
+
     }
 
     public class MyWebClient : WebClient

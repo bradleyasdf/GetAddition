@@ -37,36 +37,32 @@
             this.btnFolders = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.lCount = new System.Windows.Forms.Label();
-            this.ckFullBookName = new System.Windows.Forms.CheckBox();
             this.btnOptions = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lFailed = new System.Windows.Forms.ListBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.setupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.accSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.nChangeInterval = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.nInterval = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.lPossibleFail = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbProxyMode = new System.Windows.Forms.GroupBox();
             this.rbProxyList = new System.Windows.Forms.RadioButton();
             this.rbProxy = new System.Windows.Forms.RadioButton();
             this.rbNoProxy = new System.Windows.Forms.RadioButton();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nChangeInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nInterval)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.gbProxyMode.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAddition
             // 
-            this.btnAddition.Location = new System.Drawing.Point(425, 391);
+            this.btnAddition.Location = new System.Drawing.Point(559, 453);
+            this.btnAddition.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddition.Name = "btnAddition";
-            this.btnAddition.Size = new System.Drawing.Size(75, 23);
+            this.btnAddition.Size = new System.Drawing.Size(100, 28);
             this.btnAddition.TabIndex = 0;
             this.btnAddition.Text = "Go";
             this.btnAddition.UseVisualStyleBackColor = true;
@@ -90,17 +86,20 @@
             // lFolders
             // 
             this.lFolders.FormattingEnabled = true;
-            this.lFolders.Location = new System.Drawing.Point(16, 41);
+            this.lFolders.ItemHeight = 16;
+            this.lFolders.Location = new System.Drawing.Point(13, 22);
+            this.lFolders.Margin = new System.Windows.Forms.Padding(4);
             this.lFolders.Name = "lFolders";
             this.lFolders.ScrollAlwaysVisible = true;
-            this.lFolders.Size = new System.Drawing.Size(485, 95);
+            this.lFolders.Size = new System.Drawing.Size(645, 116);
             this.lFolders.TabIndex = 2;
             // 
             // btnFolders
             // 
-            this.btnFolders.Location = new System.Drawing.Point(508, 41);
+            this.btnFolders.Location = new System.Drawing.Point(669, 22);
+            this.btnFolders.Margin = new System.Windows.Forms.Padding(4);
             this.btnFolders.Name = "btnFolders";
-            this.btnFolders.Size = new System.Drawing.Size(75, 23);
+            this.btnFolders.Size = new System.Drawing.Size(100, 28);
             this.btnFolders.TabIndex = 3;
             this.btnFolders.Text = "Choose folders";
             this.btnFolders.UseVisualStyleBackColor = true;
@@ -109,27 +108,19 @@
             // lCount
             // 
             this.lCount.AutoSize = true;
-            this.lCount.Location = new System.Drawing.Point(19, 401);
+            this.lCount.Location = new System.Drawing.Point(17, 466);
+            this.lCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lCount.Name = "lCount";
-            this.lCount.Size = new System.Drawing.Size(35, 13);
+            this.lCount.Size = new System.Drawing.Size(46, 17);
             this.lCount.TabIndex = 4;
             this.lCount.Text = "label1";
             // 
-            // ckFullBookName
-            // 
-            this.ckFullBookName.AutoSize = true;
-            this.ckFullBookName.Location = new System.Drawing.Point(225, 166);
-            this.ckFullBookName.Name = "ckFullBookName";
-            this.ckFullBookName.Size = new System.Drawing.Size(115, 17);
-            this.ckFullBookName.TabIndex = 6;
-            this.ckFullBookName.Text = "use full book name";
-            this.ckFullBookName.UseVisualStyleBackColor = true;
-            // 
             // btnOptions
             // 
-            this.btnOptions.Location = new System.Drawing.Point(508, 79);
+            this.btnOptions.Location = new System.Drawing.Point(669, 69);
+            this.btnOptions.Margin = new System.Windows.Forms.Padding(4);
             this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(75, 23);
+            this.btnOptions.Size = new System.Drawing.Size(100, 28);
             this.btnOptions.TabIndex = 7;
             this.btnOptions.Text = "options";
             this.btnOptions.UseVisualStyleBackColor = true;
@@ -137,9 +128,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(504, 189);
+            this.button1.Location = new System.Drawing.Point(664, 205);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 8;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -153,42 +145,21 @@
             // lFailed
             // 
             this.lFailed.FormattingEnabled = true;
-            this.lFailed.Location = new System.Drawing.Point(16, 214);
+            this.lFailed.ItemHeight = 16;
+            this.lFailed.Location = new System.Drawing.Point(13, 235);
+            this.lFailed.Margin = new System.Windows.Forms.Padding(4);
             this.lFailed.Name = "lFailed";
             this.lFailed.ScrollAlwaysVisible = true;
-            this.lFailed.Size = new System.Drawing.Size(485, 69);
+            this.lFailed.Size = new System.Drawing.Size(645, 84);
             this.lFailed.TabIndex = 2;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setupToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(591, 24);
-            this.menuStrip1.TabIndex = 12;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // setupToolStripMenuItem
-            // 
-            this.setupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accSetup});
-            this.setupToolStripMenuItem.Name = "setupToolStripMenuItem";
-            this.setupToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.setupToolStripMenuItem.Text = "Setup";
-            // 
-            // accSetup
-            // 
-            this.accSetup.Name = "accSetup";
-            this.accSetup.Size = new System.Drawing.Size(118, 22);
-            this.accSetup.Text = "Accounts";
             // 
             // nChangeInterval
             // 
             this.nChangeInterval.Enabled = false;
-            this.nChangeInterval.Location = new System.Drawing.Point(451, 146);
+            this.nChangeInterval.Location = new System.Drawing.Point(593, 152);
+            this.nChangeInterval.Margin = new System.Windows.Forms.Padding(4);
             this.nChangeInterval.Name = "nChangeInterval";
-            this.nChangeInterval.Size = new System.Drawing.Size(49, 20);
+            this.nChangeInterval.Size = new System.Drawing.Size(64, 22);
             this.nChangeInterval.TabIndex = 13;
             this.nChangeInterval.Value = new decimal(new int[] {
             3,
@@ -199,17 +170,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(345, 148);
+            this.label1.Location = new System.Drawing.Point(452, 154);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 13);
+            this.label1.Size = new System.Drawing.Size(132, 17);
             this.label1.TabIndex = 14;
             this.label1.Text = "change proxy every";
             // 
             // nInterval
             // 
-            this.nInterval.Location = new System.Drawing.Point(451, 173);
+            this.nInterval.Location = new System.Drawing.Point(593, 185);
+            this.nInterval.Margin = new System.Windows.Forms.Padding(4);
             this.nInterval.Name = "nInterval";
-            this.nInterval.Size = new System.Drawing.Size(49, 20);
+            this.nInterval.Size = new System.Drawing.Size(64, 22);
             this.nInterval.TabIndex = 15;
             this.nInterval.Value = new decimal(new int[] {
             12,
@@ -220,39 +193,45 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(345, 175);
+            this.label2.Location = new System.Drawing.Point(452, 187);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(85, 13);
+            this.label2.Size = new System.Drawing.Size(114, 17);
             this.label2.TabIndex = 16;
             this.label2.Text = "pause (seconds)";
             // 
             // lPossibleFail
             // 
             this.lPossibleFail.FormattingEnabled = true;
-            this.lPossibleFail.Location = new System.Drawing.Point(16, 306);
+            this.lPossibleFail.ItemHeight = 16;
+            this.lPossibleFail.Location = new System.Drawing.Point(13, 349);
+            this.lPossibleFail.Margin = new System.Windows.Forms.Padding(4);
             this.lPossibleFail.Name = "lPossibleFail";
             this.lPossibleFail.ScrollAlwaysVisible = true;
-            this.lPossibleFail.Size = new System.Drawing.Size(485, 69);
+            this.lPossibleFail.Size = new System.Drawing.Size(645, 84);
             this.lPossibleFail.TabIndex = 2;
             // 
-            // groupBox1
+            // gbProxyMode
             // 
-            this.groupBox1.Controls.Add(this.rbProxyList);
-            this.groupBox1.Controls.Add(this.rbProxy);
-            this.groupBox1.Controls.Add(this.rbNoProxy);
-            this.groupBox1.Location = new System.Drawing.Point(16, 146);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(203, 49);
-            this.groupBox1.TabIndex = 17;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "mode";
+            this.gbProxyMode.Controls.Add(this.rbProxyList);
+            this.gbProxyMode.Controls.Add(this.rbProxy);
+            this.gbProxyMode.Controls.Add(this.rbNoProxy);
+            this.gbProxyMode.Location = new System.Drawing.Point(13, 152);
+            this.gbProxyMode.Margin = new System.Windows.Forms.Padding(4);
+            this.gbProxyMode.Name = "gbProxyMode";
+            this.gbProxyMode.Padding = new System.Windows.Forms.Padding(4);
+            this.gbProxyMode.Size = new System.Drawing.Size(271, 60);
+            this.gbProxyMode.TabIndex = 17;
+            this.gbProxyMode.TabStop = false;
+            this.gbProxyMode.Text = "mode";
             // 
             // rbProxyList
             // 
             this.rbProxyList.AutoSize = true;
-            this.rbProxyList.Location = new System.Drawing.Point(133, 19);
+            this.rbProxyList.Location = new System.Drawing.Point(177, 23);
+            this.rbProxyList.Margin = new System.Windows.Forms.Padding(4);
             this.rbProxyList.Name = "rbProxyList";
-            this.rbProxyList.Size = new System.Drawing.Size(65, 17);
+            this.rbProxyList.Size = new System.Drawing.Size(84, 21);
             this.rbProxyList.TabIndex = 0;
             this.rbProxyList.Text = "proxy list";
             this.rbProxyList.UseVisualStyleBackColor = true;
@@ -260,9 +239,10 @@
             // rbProxy
             // 
             this.rbProxy.AutoSize = true;
-            this.rbProxy.Location = new System.Drawing.Point(77, 19);
+            this.rbProxy.Location = new System.Drawing.Point(103, 23);
+            this.rbProxy.Margin = new System.Windows.Forms.Padding(4);
             this.rbProxy.Name = "rbProxy";
-            this.rbProxy.Size = new System.Drawing.Size(50, 17);
+            this.rbProxy.Size = new System.Drawing.Size(63, 21);
             this.rbProxy.TabIndex = 0;
             this.rbProxy.Text = "proxy";
             this.rbProxy.UseVisualStyleBackColor = true;
@@ -271,14 +251,14 @@
             // 
             this.rbNoProxy.AutoSize = true;
             this.rbNoProxy.Checked = true;
-            this.rbNoProxy.Location = new System.Drawing.Point(6, 19);
+            this.rbNoProxy.Location = new System.Drawing.Point(8, 23);
+            this.rbNoProxy.Margin = new System.Windows.Forms.Padding(4);
             this.rbNoProxy.Name = "rbNoProxy";
-            this.rbNoProxy.Size = new System.Drawing.Size(65, 17);
+            this.rbNoProxy.Size = new System.Drawing.Size(83, 21);
             this.rbNoProxy.TabIndex = 0;
             this.rbNoProxy.TabStop = true;
             this.rbNoProxy.Text = "no proxy";
             this.rbNoProxy.UseVisualStyleBackColor = true;
-            this.rbNoProxy.CheckedChanged += new System.EventHandler(this.rbNoProxy_CheckedChanged);
             // 
             // backgroundWorker1
             // 
@@ -288,9 +268,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(508, 391);
+            this.btnCancel.Location = new System.Drawing.Point(669, 453);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 18;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -298,36 +279,32 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(591, 432);
+            this.ClientSize = new System.Drawing.Size(788, 498);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbProxyMode);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nInterval);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nChangeInterval);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnOptions);
-            this.Controls.Add(this.ckFullBookName);
             this.Controls.Add(this.lCount);
             this.Controls.Add(this.btnFolders);
             this.Controls.Add(this.lPossibleFail);
             this.Controls.Add(this.lFailed);
             this.Controls.Add(this.lFolders);
             this.Controls.Add(this.btnAddition);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nChangeInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nInterval)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbProxyMode.ResumeLayout(false);
+            this.gbProxyMode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,20 +320,16 @@
         private System.Windows.Forms.Button btnFolders;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Label lCount;
-        private System.Windows.Forms.CheckBox ckFullBookName;
         private System.Windows.Forms.Button btnOptions;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ListBox lFailed;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem setupToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem accSetup;
         private System.Windows.Forms.NumericUpDown nChangeInterval;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nInterval;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox lPossibleFail;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbProxyMode;
         private System.Windows.Forms.RadioButton rbProxy;
         private System.Windows.Forms.RadioButton rbNoProxy;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
