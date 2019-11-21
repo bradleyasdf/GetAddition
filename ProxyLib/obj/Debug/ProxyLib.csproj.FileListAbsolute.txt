@@ -21,3 +21,4 @@ C:\worknew1\tech\mine\code\GetAddition\2.1.3b\GetAddition\ProxyLib\bin\Debug\Pro
 C:\worknew1\tech\mine\code\GetAddition\2.1.3b\GetAddition\ProxyLib\bin\Debug\ProxyLib.pdb
 C:\worknew1\tech\mine\code\GetAddition\2.1.3b\GetAddition\ProxyLib\obj\Debug\ProxyLib.dll
 C:\worknew1\tech\mine\code\GetAddition\2.1.3b\GetAddition\ProxyLib\obj\Debug\ProxyLib.pdb
+C:\worknew1\tech\mine\code\GetAddition\2.1.3b\GetAddition\ProxyLib\obj\Debug\ProxyLib.csprojResolveAssemblyReference.cache
