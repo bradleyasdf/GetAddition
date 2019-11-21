@@ -1,0 +1,4 @@
+ProxyMode=no
+Servers=CZ,DE,ES,FR,HU,IN,JP,NL,PL,RO,SE,SG,US
+Separators=" ", "——", "：", "·", "（"
+AuthorSuffix="，", "主编", "改编", "编著", "；", "选编", "编文", "编辑", "合编", "改编", " ", "编写"
